@@ -6,10 +6,21 @@
     <script type="text/javascript" src="../GameMgr/MockGame.js"></script> 
     <script type="text/javascript" src="../GameMgr/lib/jquery-1.10.0.min.js"></script>
     <script type="text/javascript" src="howler.min.js"></script>     
-    <style>
-    	#heart {
-    		opacity:0;	
-    	}
+    <script type="text/javascript" src="loader.js"></script>
+    <style type="text/css">
+    h1 {
+        margin: 9% auto;
+        text-align: center;
+    }
+    #heart {
+        opacity:0;  
+    }    
+    #timeremain {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 20px;
+    }
     </style>
 </head>
 <body>
@@ -17,57 +28,109 @@
         <img id="heart" src="heart.png" width="50" height="50" />
         <span id="heartbeat">0</span>
     </div>
+    <progress id="timeremain" value="10" max="10"></progress>
+    <h1 id="welcome">Sauve le chat, mais ne le grille pas !</h1>
     <canvas id="canvas" width="800" height="480"></canvas>
 
     <script type="text/javascript">
     function gameLoad(gameMgr) {
+        var loader = new Loader(function(){
+            gameMgr.ready();
+        });
+
+        var sounds = [];
+        sounds['ecg'] = new Howl({urls: ['sfx/ECG.mp3', 'sfx/ECG.ogg']});
+        sounds['boom'] = new Howl({urls: ['sfx/Boom.mp3', 'sfx/Boom.ogg']});
+        sounds['elec'] = new Howl({urls: ['sfx/ElectricityCourte.mp3', 'sfx/ElectricityCourte.ogg']});
+        sounds['chat1'] = new Howl({urls: ['sfx/Chat1.mp3', 'sfx/Chat1.ogg']});
+        sounds['chat2'] = new Howl({urls: ['sfx/Chat2.mp3', 'sfx/Chat2.ogg']});
+        sounds['chat3'] = new Howl({urls: ['sfx/Chat3.mp3', 'sfx/Chat3.ogg']});
+
+        // dead cat
+        var woundedCatImage = new Image();
+        loader.attachedOne();
+        woundedCatImage.onload = function(){
+            loader.finishedOne();
+        };
+        woundedCatImage.src = 'chat-vivant.png';
+
+        // dead cat
+        var deadCatImage = new Image();
+        loader.attachedOne();
+        deadCatImage.onload = function(){
+            loader.finishedOne();
+        };
+        deadCatImage.src = 'chat-mort.png';
+
+        // dead cat
+        var grilledCatImage = new Image();
+        loader.attachedOne();
+        grilledCatImage.onload = function(){
+            loader.finishedOne();
+        };
+        grilledCatImage.src = 'cat.jpg';
+
+        // battery
+        var batteryImage = new Image();
+        loader.attachedOne();
+        batteryImage.onload = function(){
+            loader.finishedOne();
+        };
+        batteryImage.src = 'battery.jpeg';
+
+
+        loader.gogogo();
+
         // configure your game
         gameMgr.onStart(function(params) {
             
-            var canvas = document.getElementById('canvas');
-            var context = canvas.getContext('2d');
-            var sounds = [];
-            var endPoint = { x:300, y:200 };
-            var ctx = {
-                cat: {
-                    x: 200,
-                    y: 250,
-                    width: 150,
-                    height: 100
-                },
-                battery: {
-                    x: 0,
-                    y: 250,
-                    width: 100,
-                    height: 100
-                },
-                playing: true,
-                counter_min: 70,
-                counter_max: 120,
-                counter: 10,
-                score: 0,
-                statuses : ['dead', 'reanimating', 'grilled', 'alive'],
-                status: 'dead',
-            };
+
+            
+            function IntensiveCare() {
+                var canvas = document.getElementById('canvas');
+                var context = canvas.getContext('2d');
+                var sounds = [];
+                var endPoint = { x:300, y:200 };
+                var ctx = {
+                    time: 10,
+                    cat: {
+                        x: 200,
+                        y: 250,
+                        width: 150,
+                        height: 100
+                    },
+                    battery: {
+                        x: 0,
+                        y: 250,
+                        width: 100,
+                        height: 100
+                    },
+                    playing: true,
+                    counter_min: 70,
+                    counter_max: 120,
+                    counter: 10,
+                    score: 0,
+                    statuses : ['dead', 'reanimating', 'grilled', 'alive'],
+                    status: 'dead',
+                };
 
             function updateStatus() {
                 if (ctx.counter < ctx.counter_min) {
-                	if (ctx.status != 'dead') {
-                		sounds['chat1'].play();
-                		ctx.status = 'dead';
-                	}
+                    if (ctx.status != 'dead') {
+                        sounds['chat1'].play();
+                        ctx.status = 'dead';
+                    }
                 } else if (ctx.counter < ctx.counter_max) {
-                	if (ctx.status != 'reanimating') {
-                		sounds['chat2'].play();
-                    	ctx.status = 'reanimating';               		
-                	}
+                    if (ctx.status != 'reanimating') {
+                        sounds['chat2'].play();
+                        ctx.status = 'reanimating';                     
+                    }
                 } else {
-                	if (ctx.status != 'grilled') {
-                		sounds['boom'].play();
-                    	ctx.status = 'grilled';                		
-                	}
+                    if (ctx.status != 'grilled') {
+                        sounds['boom'].play();
+                        ctx.status = 'grilled';                     
+                    }
                 }
-                console.log(ctx.status);       
             }
 
             function bzzt() {
@@ -76,136 +139,136 @@
                 sounds['elec'].stop().play();
             }
 
-			function heartbeat() {
-				var freq = 1;
-				$('#heartbeat').text(ctx.counter);
-				if (ctx.counter == 0) {
-					setTimeout(function() {
-						heartbeat();
-					},1000);
-					return;	
-				} else {
-					freq = ctx.counter/60;
-				}
-				var duration = parseInt(1/freq*100);
-
-				$('#heart').css('opacity', 1);
-				if (sounds['ecg']) {
-					sounds['ecg'].stop().play();
-				}
-				
-				setTimeout(function() {
-					$('#heart').css('opacity', 0);
-					setTimeout(function() {
-						heartbeat();
-					},duration);					
-				},100);
-			}            
-
-            function timeDecay() {
-                if (ctx.playing) {
-                    ctx.counter -= 1;
-                    if (ctx.counter < 0) {
-                        ctx.counter = 0;
-                    }
-                    updateStatus();
-                    //console.log('decr' + ctx.counter);
-                }
-            }    
-
-            function untilTimeout() {
-                ctx.playing = false;
-                updateStatus();
-                if (ctx.status == 'reanimating') {
-                    ctx.status = 'alive';
-                }
-                if (ctx.status == 'dead' || ctx.status == 'grilled') {
-                	sounds['ecg'].play();
-                	setTimeout(function() {
-                		gameMgr.end(false, 0);
-                	},2000);
-
+            function heartbeat() {
+                var freq = 1;
+                $('#heartbeat').text(ctx.counter);
+                if (ctx.counter == 0) {
+                    setTimeout(function() {
+                        heartbeat();
+                    },1000);
+                    return; 
                 } else {
-                	sounds['chat3'].play();
-                	setTimeout(function() {
-                		gameMgr.end(true, Math.abs(50 - ctx.counter));
-                	});
+                    freq = ctx.counter/60;
                 }
-            }
+                var duration = parseInt(1/freq*100);
 
-            function onDocumentMouseMove(event) {
-                endPoint.x = event.clientX;
-                endPoint.y = event.clientY;
-
-                if ((endPoint.x > ctx.cat.x && endPoint.x < ctx.cat.x + ctx.cat.width)
-                 && (endPoint.y > ctx.cat.y && endPoint.y < ctx.cat.y + ctx.cat.height)) {
-                   bzzt();
+                $('#heart').css('opacity', 1);
+                if (sounds['ecg']) {
+                    sounds['ecg'].stop().play();
                 }
+                
+                setTimeout(function() {
+                    $('#heart').css('opacity', 0);
+                    setTimeout(function() {
+                        heartbeat();
+                    },duration);                    
+                },100);
+            } 
+
+                function timeDecay() {
+                    if (ctx.playing) {
+                        ctx.counter -= 1;
+                        $('#timeremain').val(--ctx.time);
+
+                        if (ctx.counter < 0) {
+                            ctx.counter = 0;
+                        }
+                        updateStatus();
+                        //console.log('decr' + ctx.counter);
+                    }
+                }    
+
+                function untilTimeout() {
+                    ctx.playing = false;
+                    updateStatus();
+                    if (ctx.status == 'reanimating') {
+                        ctx.status = 'alive';
+                    }
+                    if (ctx.status == 'dead' || ctx.status == 'grilled') {  
+                        sounds['ecg'].play();                      
+                        $('#welcome').show().html('Le chat est mort !');
+                        $('#canvas').hide();
+                        setTimeout(function(){
+                            gameMgr.end(false, 0);
+                        }, 1000);
+    
+                    } else {
+                        sounds['chat3'].play();
+                        $('#welcome').show().html('Le chat est vivant !');
+                        $('#canvas').hide();
+                        setTimeout(function(){
+                            gameMgr.end(true, Math.abs(50 - ctx.counter));
+                        }, 1000);
+                    }
+                }
+
+                function onDocumentMouseMove(event) {
+                    endPoint.x = event.clientX;
+                    endPoint.y = event.clientY;
+
+                    if ((endPoint.x > ctx.cat.x && endPoint.x < ctx.cat.x + ctx.cat.width)
+                     && (endPoint.y > ctx.cat.y && endPoint.y < ctx.cat.y + ctx.cat.height)) {
+                       bzzt();
+                    }
+                }
+
+                var cats = {
+                    dead: woundedCatImage,
+                    alive: woundedCatImage,
+                    grilled: grilledCatImage,
+                    reanimating: deadCatImage,
+                };
+
+                function render() {
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+
+                    context.drawImage(batteryImage, ctx.battery.x, ctx.battery.y, ctx.battery.width, ctx.battery.height);
+                    context.drawImage(cats[ ctx.status ], ctx.cat.x, ctx.cat.y, ctx.cat.width, ctx.cat.height);
+
+                    context.beginPath();
+                    context.lineWidth = 5;
+                    context.moveTo(20, 276);
+                    context.bezierCurveTo(140, 200, 388, 10, endPoint.x - 1, endPoint.y + 10);
+                    context.strokeStyle = 'orange';
+                    context.stroke();
+
+                    context.beginPath();
+                    context.lineWidth = 10;
+                    context.moveTo(20, 276);
+                    context.bezierCurveTo(140, 200, 388, 10, endPoint.x, endPoint.y);
+                    context.strokeStyle = 'black';
+                    context.stroke();
+
+                    context.beginPath();
+                    context.lineWidth = 5;
+                    context.moveTo(72, 276);
+                    context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50 - 1, endPoint.y + 10);
+                    context.strokeStyle = 'orange';
+                    context.stroke();
+
+                    context.beginPath();
+                    context.lineWidth = 10;
+                    context.moveTo(72, 276);
+                    context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50, endPoint.y);
+                    context.strokeStyle = 'red';
+                    context.stroke();
+
+                    requestAnimationFrame(render);
+                }
+
+                render();
+                heartbeat();
+                setInterval(timeDecay, 1000);
+                setTimeout(untilTimeout, 11000);
+                document.addEventListener('mousemove', onDocumentMouseMove, false);                
             }
 
-            // dead cat
-            var catImage = new Image();
-            catImage.onload = function() {};
-            catImage.src = 'cat.jpg';
-            heartbeat();
+            setTimeout(function() {
+                $('#welcome').hide();
 
-
-           	sounds['ecg'] = new Howl({urls: ['sfx/ECG.mp3', 'sfx/ECG.ogg']});
-	 		sounds['boom'] = new Howl({urls: ['sfx/Boom.mp3', 'sfx/Boom.ogg']});
-	 		sounds['elec'] = new Howl({urls: ['sfx/ElectricityCourte.mp3', 'sfx/ElectricityCourte.ogg']});
-	 		sounds['chat1'] = new Howl({urls: ['sfx/Chat1.mp3', 'sfx/Chat1.ogg']});
-	 		sounds['chat2'] = new Howl({urls: ['sfx/Chat2.mp3', 'sfx/Chat2.ogg']});
-	 		sounds['chat3'] = new Howl({urls: ['sfx/Chat3.mp3', 'sfx/Chat3.ogg']});
-
-            // dead cat
-            var batteryImage = new Image();
-            batteryImage.onload = function() {};
-            batteryImage.src = 'battery.jpeg';
-
-            function render() {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-
-                context.drawImage(batteryImage, ctx.battery.x, ctx.battery.y, ctx.battery.width, ctx.battery.height);
-                context.drawImage(catImage, ctx.cat.x, ctx.cat.y, ctx.cat.width, ctx.cat.height);
-
-                context.beginPath();
-                context.lineWidth = 5;
-                context.moveTo(20, 276);
-                context.bezierCurveTo(140, 200, 388, 10, endPoint.x - 1, endPoint.y + 10);
-                context.strokeStyle = 'orange';
-                context.stroke();
-
-                context.beginPath();
-                context.lineWidth = 10;
-                context.moveTo(20, 276);
-                context.bezierCurveTo(140, 200, 388, 10, endPoint.x, endPoint.y);
-                context.strokeStyle = 'black';
-                context.stroke();
-
-                context.beginPath();
-                context.lineWidth = 5;
-                context.moveTo(72, 276);
-                context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50 - 1, endPoint.y + 10);
-                context.strokeStyle = 'orange';
-                context.stroke();
-
-                context.beginPath();
-                context.lineWidth = 10;
-                context.moveTo(72, 276);
-                context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50, endPoint.y);
-                context.strokeStyle = 'red';
-                context.stroke();
-
-                requestAnimationFrame(render);
-            }
-
-            render();            
-            setInterval(timeDecay, 1000);
-            setTimeout(untilTimeout, 10000);
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
+                IntensiveCare();
+            }, 1000);
         });
-        
-        gameMgr.ready();
     }; 
     </script>  
 </body>
