@@ -39,12 +39,30 @@
         });
 
         var sounds = [];
-        sounds['ecg'] = new Howl({urls: ['sfx/ECG.mp3', 'sfx/ECG.ogg']});
-        sounds['boom'] = new Howl({urls: ['sfx/Boom.mp3', 'sfx/Boom.ogg']});
-        sounds['elec'] = new Howl({urls: ['sfx/ElectricityCourte.mp3', 'sfx/ElectricityCourte.ogg']});
-        sounds['chat1'] = new Howl({urls: ['sfx/Chat1.mp3', 'sfx/Chat1.ogg']});
-        sounds['chat2'] = new Howl({urls: ['sfx/Chat2.mp3', 'sfx/Chat2.ogg']});
-        sounds['chat3'] = new Howl({urls: ['sfx/Chat3.mp3', 'sfx/Chat3.ogg']});
+        loader.attachedOne();
+        sounds['ecg'] = new Howl({urls: ['sfx/ECG.mp3', 'sfx/ECG.ogg'],
+            onload:function(){ loader.finishedOne(); }
+        });
+        loader.attachedOne();
+        sounds['boom'] = new Howl({urls: ['sfx/Boom.mp3', 'sfx/Boom.ogg'],
+            onload:function(){ loader.finishedOne(); }
+        });
+        loader.attachedOne();
+        sounds['elec'] = new Howl({urls: ['sfx/ElectricityCourte.mp3', 'sfx/ElectricityCourte.ogg'],
+            onload:function(){ loader.finishedOne(); }
+        });
+        loader.attachedOne();
+        sounds['chat1'] = new Howl({urls: ['sfx/Chat1.mp3', 'sfx/Chat1.ogg'],
+            onload:function(){ loader.finishedOne(); }
+        });
+        loader.attachedOne();
+        sounds['chat2'] = new Howl({urls: ['sfx/Chat2.mp3', 'sfx/Chat2.ogg'],
+            onload:function(){ loader.finishedOne(); }
+        });
+        loader.attachedOne();
+        sounds['chat3'] = new Howl({urls: ['sfx/Chat3.mp3', 'sfx/Chat3.ogg'],
+            onload:function(){ loader.finishedOne(); }
+        });
 
         // dead cat
         var woundedCatImage = new Image();
@@ -93,16 +111,18 @@
                 var ctx = {
                     time: 10,
                     cat: {
-                        x: 200,
-                        y: 250,
-                        width: 150,
-                        height: 100
+                        x: 200, 
+                        y: 50,
+                        width: 426,
+                        height: 371
                     },
                     battery: {
-                        x: 0,
-                        y: 250,
+                        x: 20,
+                        y: 20,
                         width: 100,
-                        height: 100
+                        height: 100,
+                        handle_red: { x:71, y:80 },
+                        handle_black: { x:71, y:40 },
                     },
                     playing: true,
                     counter_min: 70,
@@ -226,28 +246,28 @@
 
                     context.beginPath();
                     context.lineWidth = 5;
-                    context.moveTo(20, 276);
+                    context.moveTo(ctx.battery.handle_black.x, ctx.battery.handle_black.y);
                     context.bezierCurveTo(140, 200, 388, 10, endPoint.x - 1, endPoint.y + 10);
                     context.strokeStyle = 'orange';
                     context.stroke();
 
                     context.beginPath();
                     context.lineWidth = 10;
-                    context.moveTo(20, 276);
+                    context.moveTo(ctx.battery.handle_black.x, ctx.battery.handle_black.y);
                     context.bezierCurveTo(140, 200, 388, 10, endPoint.x, endPoint.y);
                     context.strokeStyle = 'black';
                     context.stroke();
 
                     context.beginPath();
                     context.lineWidth = 5;
-                    context.moveTo(72, 276);
+                    context.moveTo(ctx.battery.handle_red.x, ctx.battery.handle_red.y);
                     context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50 - 1, endPoint.y + 10);
                     context.strokeStyle = 'orange';
                     context.stroke();
 
                     context.beginPath();
                     context.lineWidth = 10;
-                    context.moveTo(72, 276);
+                    context.moveTo(ctx.battery.handle_red.x, ctx.battery.handle_red.y);
                     context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50, endPoint.y);
                     context.strokeStyle = 'red';
                     context.stroke();
