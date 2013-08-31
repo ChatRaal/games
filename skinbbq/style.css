@@ -1,0 +1,259 @@
+@font-face {
+  font-family: 'Leckerli One';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Leckerli One'), local('LeckerliOne-Regular'), url('fonts/Leckerli_One/LeckerliOne-Regular.ttf');
+}
+
+a, a:visited {
+	color: black;
+}
+
+#welcome {
+	font-family: 'Leckerli One', cursive;
+	color: #736357;
+}
+
+#welcome a, #welcome a:visited {
+	font-size: 40px;
+	color: #736357;
+	text-decoration: none;
+}
+
+#footer, #footer a, #footer a:visited {
+	font-size: 14px;
+	color: black;
+}
+
+/* boutons menu */
+
+#buttons {
+	padding: 340px 0 0 125px;;
+}
+
+#buttons a {
+    background-color: #FFFFFF;
+    border-radius: 8px 8px 8px 8px;
+    display: block;
+}
+
+#buttons #lstart, #buttons a:active , #buttons a:hover  {
+	background-color: #736357;
+	color: #FFFFFF
+	}
+	
+#buttons #lstart:active , #buttons #lstart:hover  {
+	color: #736357;
+	background-color: #FFFFFF
+	}
+
+
+
+#welcome ul li {
+    float: left;
+    list-style-type: none;
+    padding: 10px;
+    width: 24%;
+}
+
+
+/* boutons retour */
+.backHome {
+    background-color: #FFFFFF;
+    border-radius: 8px 8px 8px 8px;
+    display: block;
+    color: #736357;
+    width: 29%;
+    margin: 0 auto;
+    font-family: 'Leckerli One', cursive;
+    font-size: 30px;
+    text-decoration:none;
+}
+
+.backHome:active, .backHome:hover {
+    color: #FFFFFF;
+    background-color: #736357;
+
+}
+
+
+#youwin, #youlose {position: relative;}
+
+#youwin .backHome , #youlose .backHome {
+	position: absolute;
+	bottom: 70px;
+	left: 80px;	
+}
+
+
+
+.thumb {
+	border: black 1px solid;
+	float: right;
+	margin-right: 20px;
+}
+
+#credits .backHome {
+	margin: 50px auto
+
+}
+
+.clear {
+	clear: both;
+}
+
+
+body {
+	background:#998675 url('img/bg.png') repeat-x center top;
+	margin:0;
+	border:0;
+	padding: 0;
+}
+#page {
+	background:transparent url('img/carton.png') no-repeat center top;
+	padding: 142px 0;
+}
+
+#welcome {
+	background: transparent url('img/accueil.png') no-repeat left top;
+}
+
+#loading, #leaderboard, #credits {
+	background: transparent url('img/vide.png') no-repeat left top;
+}
+
+#youwin {
+	background: transparent url('img/youwin.png') no-repeat left top;
+}
+
+#youwin h1 {
+	display: none;
+}
+
+#youlose {
+	background: transparent url('img/youlose.png') no-repeat left top;
+}
+
+#youlose h1 {
+	display: none;
+}
+
+#transition {
+	background: transparent url('img/ready.png') no-repeat left top;
+}
+
+#transition h1 {
+	display: none;
+}
+
+#levelup {
+	background: transparent url('img/levelup.png') no-repeat left top;
+}
+
+#levelup h1 {
+	margin: 0;
+}
+
+
+#loading h1, #leaderboard h1, #credits h1 {
+	padding-top: 100px;
+	margin-top :0;
+	font-family: 'Leckerli One', cursive;
+	font-size: 48px;
+	color: #736357;	
+}
+
+#welcome h1 {
+	display: none;
+}
+
+
+#screens>div {
+	border: 0;
+	height: 481px;
+}
+
+
+iframe {
+	border: 0;
+}
+
+.iframe_container {
+	background: white;
+}
+
+#screens>div.nohud {
+	
+}
+
+
+#hud {
+	
+}
+
+.thumb {
+	margin-right: 110px;
+}
+
+span.hleft {
+	margin-left: 20px;
+}
+
+span.hright {
+	margin-right: 20px;
+}
+
+#footer {
+	position:absolute;
+	bottom: 2px;
+	right: 25px;
+}
+
+progress {
+	//background-color:#ffffff;
+	border: 0;	
+}
+
+#levelup .level {
+	font-family: 'Leckerli One', cursive;
+	color: #736357;
+	font-size: 90px;
+}
+
+#levelup h1 {
+	padding-top: 264px;
+}
+
+.scores {
+	padding-top: 210px;
+	padding-left: 175px;
+	text-align: left;
+}
+
+.scores input[type='text'] {
+	margin: 10px;
+}
+
+.inputScore {
+	  margin: 60px 0 0 50px;
+}
+
+.highscores_container{
+	margin-left: 157px;
+}
+
+#creditsList li {
+	list-style-type: none;
+}
+
+.logo {
+	width: 30%;
+	margin-right: 2%;
+}
+
+#logos {
+	background-color: white;
+	margin: 30px auto;
+	width: 70%;
+	padding: 5%;
+}

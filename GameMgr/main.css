@@ -1,0 +1,71 @@
+body {
+	margin: 0;
+	text-align: center;
+}
+
+#footer {
+	position:absolute;
+	bottom: 2px;
+	right: 2px;
+}
+
+#welcome {
+	position: relative;
+}
+
+#credits {
+	overflow: auto;
+}
+#hud {
+	display: none;
+	width: 802px;
+	height: 20px;
+	margin:auto;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#infos {
+	display: none;
+}
+
+#screens>div {
+	display: none;
+	width:802px;
+	height: 480px;
+	border: black 1px solid;
+	margin: auto;
+	margin-top:0px;
+}
+
+#screens>div.iframe_container {
+	border: none;
+}
+
+
+#screens>div.nohud {
+	margin-top: 20px;
+}
+
+
+div.hud {
+	margin:none;
+	border:none;
+	height: 20px;
+}
+
+span.hleft {
+	float: left;
+}
+
+span.hright {
+	float: right;
+}
+
+iframe {
+	border: black 1px solid;
+}
+
+.highscores_container {
+	display: none;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Schrödinger Frenzy</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="GameMgr/main.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="skinbbq/style.css" media="screen" />
+<script type="text/javascript" src="GameMgr/lib/jquery-1.10.0.min.js"></script>
+<script type="text/javascript" src="config.js"></script> 
+<script type="text/javascript" src="GameMgr/nav.js"></script>  
+<script type="text/javascript" src="GameMgr/CWGame.js"></script>   
+<script type="text/javascript" src="GameMgr/main.js"></script> 
+<script type="text/javascript" src="skinbbq/js/howler.min.js"></script>
+<script type="text/javascript" src="skinbbq/js/sound.js"></script>   
+</head>
+<body>
+<div id="page">
+	<div id="hud"><span class="hleft">Lifes: <span class="lifes"></span></span> Level: <span class="level">1</span> <span class="hright">Score: <span class="score">0</span></span></div>
+	<div id="infos"><span id="gameName"></span><span id="result"></span></div>
+	<div id="screens">
+		<div id="welcome" class="nohud">
+			<h1 id="gameTitle"></h1>
+			<ul id="buttons">
+				<li><a href="#" id="lstart">Start</a></li>
+				<li><a href="#" id="lleaderboard">Scores</a></li>
+				<li><a href="#" id="lcredits">Credits</a></li>
+			</ul>
+			<div id="footer">Powered by <a href="https://github.com/biou/CoinWare">CoinWare</a></div>
+		</div>
+		<div id="loading" class="nohud">
+			<h1>Loading</h1>
+			<p>Please wait!</p>
+			<progress id="gameCounter" max="100" value="0"></progress>
+		</div>
+		<div id="transition">
+			<h1>Ready??</h1>	
+		</div>
+		<div id="levelup">
+			<h1><span class="level">1</span></h1>		
+		</div>
+		<div id="youwin">
+			<h1>You Win!</h1>
+	
+			<div class="scores">
+					<form class="inputScore" id="inputScoreWinner">
+						<label for="Winner">Your Name: </label><input type="text" id="Winner" />
+						<input type="submit" value="ok" />
+					</form>
+					<div class="highscores_container">
+						<h2>High Scores</h2>
+						<ol class="highscoresList">
+						</ol>
+					</div>
+			</div>
+			<a href="#" class="backHome">Back to Home</a>
+		</div>
+		<div id="youlose">
+			<h1>You lose!</h1>
+			<div class="scores">
+					<form class="inputScore" id="inputScoreLoser">
+						<label for="Loser">Your Name: </label><input type="text" id="Loser" />
+						<input type="submit" value="ok" />
+					</form>
+					<div class="highscores_container">
+						<h2>High Scores</h2>
+						<ol class="highscoresList">
+						</ol>
+					</div>
+			</div>				
+			<a href="#" class="backHome">Back to Home</a>		
+		</div>
+		<div id="leaderboard" class="nohud">
+			<h1>High Scores</h1>
+			<ol class="highscoresList">
+			</ol>
+			<a href="#" class="backHome">Back to Home</a>		
+		</div>
+		<div id="credits" class="nohud">
+			<h1>Credits</h1>
+			<p>This Game was made during the first COIN BBQ Game Jam in 2013. <img src="skinbbq/img/logo-bbq.png" alt="BBQ Game Jam" /></p>
+			<h2>Mini-Games</h2>
+			<div id="creditsList"></div>
+			<h2>Mini-Games Framework</h2>
+			<p style="padding: 0 70px">This game is made with the <a href="https://github.com/biou/CoinWare">CoinWare</a> mini-game framework. The graphical design of the menu is made by <a href="http://www.redisdead.net">Laurence Vagner</a></p>
+			<h2>Thanks!</h2>
+			<p id="logos"><a href="http://www.technoport.lu" title="Technoport"><img class="logo" src="skinbbq/img/technoport.png" alt="Technoport" /></a> <a href="http://www.europe4startups.com/" title="Europe4Startups"><img class="logo" src="skinbbq/img/logo-e4s.png" alt="Europe4Startups" /></a> <a href="http://www.insydelabs.com/" title="Insydelabs"><img class="logo" src="skinbbq/img/insydelabs.png" alt="Insydelabs" /></a> <a href="http://www.promotechlabs.com/en/partnership/lila-project/"><img class="logo" src="skinbbq/img/LILA_LOGO_NWEIVB_V1.gif" alt="LILA logo" /></a></p>
+			<a href="#" class="backHome">Back to Home</a>		
+		</div>
+	</div>
+</div>
+</body>
+</html>
