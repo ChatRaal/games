@@ -30,8 +30,64 @@
                     y: 250,
                     width: 100,
                     height: 100
-                }
+                },
+                playing: true,
+                counter: 0,
+                score: 0,
+                statuses : ['dead', 'reanimating', 'grilled', 'alive'],
+                status: 'dead',
             };
+
+            function updateStatus() {
+                if (ctx.counter < 30) {
+                    ctx.status = 'dead';
+                } else if (ctx.counter < 70) {
+                    ctx.status = 'reanimating';
+                } else {
+                    ctx.status = 'grilled';
+                }
+            }
+
+            function bzzt() {
+                ctx.counter++;
+                updateStatus();
+                console.log(ctx.counter);       
+            }
+
+            function timeDecay() {
+                if (ctx.playing) {
+                    ctx.counter -= 1;
+                    if (ctx.counter < 0) {
+                        ctx.counter = 0;
+                    }
+                    updateStatus();
+                    console.log('decr' + ctx.counter);
+                }
+            }    
+
+            function untilTimeout() {
+                ctx.playing = false;
+                updateStatus();
+                if (ctx.status == 'reanimating') {
+                    ctx.status = 'alive';
+                }
+                if (ctx.status == 'dead' || ctx.status == 'grilled') {
+                    gameMgr.end(false, 0);
+
+                } else {
+                    gameMgr.end(true, Math.abs(50 - ctx.counter));
+                }
+            }    
+
+            function onDocumentMouseMove(event) {
+                endPoint.x = event.clientX;
+                endPoint.y = event.clientY;
+
+                if ((endPoint.x > ctx.cat.x && endPoint.x < ctx.cat.x + ctx.cat.width)
+                 && (endPoint.y > ctx.cat.y && endPoint.y < ctx.cat.y + ctx.cat.height)) {
+                   bzzt();
+                }
+            }
 
             // dead cat
             var catImage = new Image();
@@ -42,21 +98,6 @@
             var batteryImage = new Image();
             batteryImage.onload = function() {};
             batteryImage.src = 'battery.jpeg';
-
-            function onDocumentMouseMove(event) {
-                endPoint.x = event.clientX;
-                endPoint.y = event.clientY;
-
-                if ((endPoint.x > ctx.cat.x && endPoint.x < ctx.cat.x + ctx.cat.width)
-                 && (endPoint.y > ctx.cat.y && endPoint.y < ctx.cat.y + ctx.cat.height)) {
-
-                    console.log('BZZZZ');
-                    gameMgr.end(false, 1);
-
-                }
-            }
-
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
 
             function render() {
                 context.clearRect(0, 0, canvas.width, canvas.height);
@@ -96,7 +137,9 @@
             }
 
             render();            
-                
+            setInterval(timeDecay, 1000);
+            setTimeout(untilTimeout, 10000);
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
         });
         
         gameMgr.ready();
