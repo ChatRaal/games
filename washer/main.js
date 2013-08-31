@@ -1,7 +1,7 @@
-var gameMgr = null;
-
+var gameMgr = null,
+    endOfGame = null;
 function gameLoad(params){
-    var gameMgr = params;
+    gameMgr = params;
     var timer;
     gameMgr.onStart(function(params) {
         $(function() {
@@ -43,7 +43,7 @@ function gameLoad(params){
         timer = 6 - params.difficulty;
     });
     gameMgr.ready();
-    window.setInterval(function(){
+    endOfGame = window.setInterval(function(){
         $("h1 time").text(timer + 's');
         if (timer <= 0) {gameMgr.end(false, 0);}
         else{
@@ -70,12 +70,14 @@ function save(){
             urls: ['./sounds/Chat2.mp3','./sounds/Chat2.ogg']
         }).play();
         $(this).addClass('sang');
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(false, 0); }, 1000);
     });
     $('#panier').on('dropped',function(){
         var sound = new Howl({
             urls: ['./sounds/RonronPlusFort.mp3','./sounds/ChRonronPlusFort.ogg']
         }).play();
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(true, 100); }, 1000);
     })
 }
@@ -86,12 +88,14 @@ function kill(){
             urls: ['./sounds/Chat2.mp3','./sounds/Chat2.ogg']
         }).play();
         $(this).addClass('sang');
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(true, 100); }, 1000);
     });
     $('#panier').on('dropped',function(){
         var sound = new Howl({
             urls: ['./sounds/RonronPlusFort.mp3','./sounds/ChRonronPlusFort.ogg']
         }).play();
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(false, 0); }, 1000);
     })
 }
