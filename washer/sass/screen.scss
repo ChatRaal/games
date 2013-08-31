@@ -5,19 +5,39 @@
 
 @import "compass/reset";
 
-.save, .kill, #cat{
-  width: 100px;
-  height: 100px;
+#fond{
+    background: url("../img/fond.png");
+    width: 800px;
+    height: 480px;
+    position:relative;
+    overflow:hidden;
 }
-.save,.kill{
+
+#machine,#panier{
   display: inline-block;
 }
-.save{ background: green;}
-.kill{ background: red;}
-#cat{ 
-  background: #383404;
-  display: block;
-  position: fixed;
-  bottom: 0px;
-  left: 50%;
-};
+#machine{
+    background: url('../img/machine.png');
+    width: image-width('machine.png');
+    height: image-height('machine.png');
+    bottom:80px;
+    left: 100px;
+    position:absolute;
+}
+
+#panier{
+    background: url('../img/panier.png');
+    width: image-width('panier.png');
+    height: image-height('panier.png');
+    bottom:80px;
+    right: 100px;
+    position:absolute;
+}
+#cat{
+    width: image-width('chat.png');
+    height: image-height('chat.png');
+    display: block;
+    position: absolute;
+    bottom: - image-height('chat.png')* 3/4 ;
+    left: 50%;
+}
