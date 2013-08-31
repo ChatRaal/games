@@ -27,6 +27,11 @@
         right: 100px;
         top: 20px;
     }
+    #debugzone {
+        display: none;
+        position: absolute;
+        border: 2px solid red;
+    }
     </style>
 </head>
 <body>
@@ -37,6 +42,8 @@
     <progress id="timeremain" value="10" max="10"></progress>
     <h1 id="welcome">Sauve le chat, mais ne le grille pas !</h1>
     <canvas id="canvas" width="800" height="480"></canvas>
+
+    <div id="debugzone"></div>
 
     <script type="text/javascript">
     var game;
@@ -122,7 +129,11 @@
                         x: 200, 
                         y: 50,
                         width: 426,
-                        height: 371
+                        height: 371,
+                        zone: {
+                            x: 250, y: 150,
+                            width: 300, height: 200,
+                        }
                     },
                     battery: {
                         x: 20,
@@ -141,58 +152,61 @@
                     status: 'dead',
                 };
 
-            function updateStatus() {
-                if (ctx.counter < ctx.counter_min) {
-                    if (ctx.status != 'dead') {
-                        sounds['chat1'].play();
-                        ctx.status = 'dead';
-                    }
-                } else if (ctx.counter < ctx.counter_max) {
-                    if (ctx.status != 'reanimating') {
-                        sounds['chat2'].play();
-                        ctx.status = 'reanimating';                     
-                    }
-                } else {
-                    if (ctx.status != 'grilled') {
-                        sounds['boom'].play();
-                        ctx.status = 'grilled';                     
-                    }
-                }
-            }
+                $('#debugzone').css({ top: ctx.cat.zone.y, left: ctx.cat.zone.x,
+                                      width: ctx.cat.zone.width, height: ctx.cat.zone.height });
 
-            function bzzt() {
-                ctx.counter++;
-                updateStatus();
-                sounds['elec'].stop().play();
-            }
-
-            function heartbeat() {
-                if (ctx.playing) {
-                    var freq = 1;
-                    $('#heartbeat').text(ctx.counter);
-                    if (ctx.counter == 0) {
-                        setTimeout(function() {
-                            heartbeat();
-                        },1000);
-                        return; 
+                function updateStatus() {
+                    if (ctx.counter < ctx.counter_min) {
+                        if (ctx.status != 'dead') {
+                            sounds['chat1'].play();
+                            ctx.status = 'dead';
+                        }
+                    } else if (ctx.counter < ctx.counter_max) {
+                        if (ctx.status != 'reanimating') {
+                            sounds['chat2'].play();
+                            ctx.status = 'reanimating';                     
+                        }
                     } else {
-                        freq = ctx.counter/60;
+                        if (ctx.status != 'grilled') {
+                            sounds['boom'].play();
+                            ctx.status = 'grilled';                     
+                        }
                     }
-                    var duration = parseInt(1/freq*100);
-
-                    $('#heart').css('opacity', 1);
-                    if (sounds['ecg']) {
-                        sounds['ecg'].stop().play();
-                    }
-                    
-                    setTimeout(function() {
-                        $('#heart').css('opacity', 0);
-                        setTimeout(function() {
-                            heartbeat();
-                        },duration);                    
-                    },100);
                 }
-            } 
+
+                function bzzt() {
+                    ctx.counter++;
+                    updateStatus();
+                    sounds['elec'].stop().play();
+                }
+
+                function heartbeat() {
+                    if (ctx.playing) {
+                        var freq = 1;
+                        $('#heartbeat').text(ctx.counter);
+                        if (ctx.counter == 0) {
+                            setTimeout(function() {
+                                heartbeat();
+                            },1000);
+                            return; 
+                        } else {
+                            freq = ctx.counter/60;
+                        }
+                        var duration = parseInt(1/freq*100);
+
+                        $('#heart').css('opacity', 1);
+                        if (sounds['ecg']) {
+                            sounds['ecg'].stop().play();
+                        }
+                        
+                        setTimeout(function() {
+                            $('#heart').css('opacity', 0);
+                            setTimeout(function() {
+                                heartbeat();
+                            },duration);                    
+                        },100);
+                    }
+                } 
 
                 function timeDecay() {
                     ctx.counter -= 5;
@@ -242,14 +256,14 @@
                     endPoint.x = event.clientX;
                     endPoint.y = event.clientY;
 
-                    if ((endPoint.x > ctx.cat.x && endPoint.x < ctx.cat.x + ctx.cat.width)
-                     && (endPoint.y > ctx.cat.y && endPoint.y < ctx.cat.y + ctx.cat.height)) {
+                    if ((endPoint.x > ctx.cat.zone.x && endPoint.x < ctx.cat.zone.x + ctx.cat.zone.width)
+                     && (endPoint.y > ctx.cat.zone.y && endPoint.y < ctx.cat.zone.y + ctx.cat.zone.height)) {
                        bzzt();
                     }
                 }
 
                 var cats = {
-                    dead: woundedCatImage,
+                    dead: deadCatImage,
                     alive: woundedCatImage,
                     grilled: grilledCatImage,
                     reanimating: deadCatImage,
