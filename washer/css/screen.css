@@ -1,64 +1,18 @@
+@import url(http://fonts.googleapis.com/css?family=Leckerli+One);
 /* Welcome to Compass.
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-/* line 17, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  vertical-align: baseline; }
+/* line 9, ../sass/screen.scss */
+h1 {
+  text-align: center;
+  width: 100%;
+  font-family: 'Leckerli One', cursive;
+  color: white;
+  font-size: 52px;
+  padding-top: 0px; }
 
-/* line 22, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-html {
-  line-height: 1; }
-
-/* line 24, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-ol, ul {
-  list-style: none; }
-
-/* line 26, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
-/* line 28, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-caption, th, td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle; }
-
-/* line 30, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-q, blockquote {
-  quotes: none; }
-  /* line 103, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-  q:before, q:after, blockquote:before, blockquote:after {
-    content: "";
-    content: none; }
-
-/* line 32, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-a img {
-  border: none; }
-
-/* line 116, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
-  display: block; }
-
-/* line 8, ../sass/screen.scss */
+/* line 18, ../sass/screen.scss */
 #fond {
   background: url("../img/fond.png");
   width: 800px;
@@ -66,11 +20,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   position: relative;
   overflow: hidden; }
 
-/* line 16, ../sass/screen.scss */
+/* line 26, ../sass/screen.scss */
 #machine, #panier {
   display: inline-block; }
 
-/* line 19, ../sass/screen.scss */
+/* line 29, ../sass/screen.scss */
 #machine {
   background: url("../img/machine.png");
   width: 239px;
@@ -78,8 +32,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   bottom: 80px;
   left: 100px;
   position: absolute; }
+  /* line 30, ../sass/screen.scss */
+  #machine.sang {
+    background: url("../img/machine.png"), url("../img/sang.png"); }
 
-/* line 28, ../sass/screen.scss */
+/* line 41, ../sass/screen.scss */
 #panier {
   background: url("../img/panier.png");
   width: 189px;
@@ -88,7 +45,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   right: 100px;
   position: absolute; }
 
-/* line 36, ../sass/screen.scss */
+/* line 49, ../sass/screen.scss */
 #cat {
   width: 170px;
   height: 418px;
@@ -97,7 +54,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   bottom: -313.5px;
   left: 50%; }
 
-/* line 46, ../sass/screen.scss */
+/* line 59, ../sass/screen.scss */
 .catTurn {
   -webkit-animation-name: spin;
   -webkit-animation-duration: 500ms;
@@ -117,37 +74,37 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   animation-timing-function: linear; }
 
 @-ms-keyframes spin {
-  /* line 66, ../sass/screen.scss */
+  /* line 79, ../sass/screen.scss */
   from {
     -ms-transform: rotate(0deg); }
 
-  /* line 67, ../sass/screen.scss */
+  /* line 80, ../sass/screen.scss */
   to {
     -ms-transform: rotate(360deg); } }
 
 @-moz-keyframes spin {
-  /* line 70, ../sass/screen.scss */
+  /* line 83, ../sass/screen.scss */
   from {
     -moz-transform: rotate(0deg); }
 
-  /* line 71, ../sass/screen.scss */
+  /* line 84, ../sass/screen.scss */
   to {
     -moz-transform: rotate(360deg); } }
 
 @-webkit-keyframes spin {
-  /* line 74, ../sass/screen.scss */
+  /* line 87, ../sass/screen.scss */
   from {
     -webkit-transform: rotate(0deg); }
 
-  /* line 75, ../sass/screen.scss */
+  /* line 88, ../sass/screen.scss */
   to {
     -webkit-transform: rotate(360deg); } }
 
 @keyframes spin {
-  /* line 78, ../sass/screen.scss */
+  /* line 91, ../sass/screen.scss */
   from {
     transform: rotate(0deg); }
 
-  /* line 81, ../sass/screen.scss */
+  /* line 94, ../sass/screen.scss */
   to {
     transform: rotate(360deg); } }
