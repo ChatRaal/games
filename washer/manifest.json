@@ -1,0 +1,27 @@
+{
+    "id": "Washer",
+    "name": "Cat in washer",
+    "description": "Drop the car in the good recipient!",
+    "teamName": "ChatRaal",
+    "credits": [
+        {
+            "name": "Laurence Vagner",
+            "job": "Graphism",
+            "url": "http://www.redisdead.net/"
+        },
+        {
+            "name": "Thibault",
+            "job": "Code",
+            "url":"http://thibaultmilan.com/"
+        },
+        {
+            "name": "Nico",
+            "job": "Music"
+        },
+        {
+            "name": "Morgane",
+            "job": "Semi-code"
+        }
+
+    ]
+}
