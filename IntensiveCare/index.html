@@ -40,7 +40,7 @@
         woundedCatImage.onload = function(){
             loader.finishedOne();
         };
-        woundedCatImage.src = 'cat.jpg';
+        woundedCatImage.src = 'chat-vivant.png';
 
         // dead cat
         var deadCatImage = new Image();
@@ -48,7 +48,7 @@
         deadCatImage.onload = function(){
             loader.finishedOne();
         };
-        deadCatImage.src = 'cat.jpg';
+        deadCatImage.src = 'chat-mort.png';
 
         // dead cat
         var grilledCatImage = new Image();
@@ -136,10 +136,16 @@
                         ctx.status = 'alive';
                     }
                     if (ctx.status == 'dead' || ctx.status == 'grilled') {
-                        gameMgr.end(false, 0);
-
+                        $('#welcome').show().html('Le chat est mort !');
+                        setTimeout(function(){
+                            gameMgr.end(false, 0);
+                        }, 1000);
+    
                     } else {
-                        gameMgr.end(true, Math.abs(50 - ctx.counter));
+                        $('#welcome').show().html('Le chat est vivant !');
+                        setTimeout(function(){
+                            gameMgr.end(true, Math.abs(50 - ctx.counter));
+                        }, 1000);
                     }
                 }
 
