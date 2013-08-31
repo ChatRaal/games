@@ -32,12 +32,36 @@
         position: absolute;
         border: 2px solid red;
     }
+    #heartbeat {
+        font-size: 30px;
+        color: #6DE533;
+    }
+    #heartbeat.heart-dead,
+    #heartbeat.heart-grilled {
+        color: ##AC2900;
+    }
+    body {
+        background-image:url(vide.png);
+    }
+
+    @font-face {
+      font-family: 'Leckerli One';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Leckerli One'), local('LeckerliOne-Regular'), url('fonts/Leckerli_One/LeckerliOne-Regular.ttf');
+    }
+   
+    #welcome {
+        padding-top: 20px;
+        font-family: 'Leckerli One', cursive;
+        color: #736357;
+    }
     </style>
 </head>
 <body>
     <div id="ecg">
         <img id="heart" src="heart.png" width="50" height="50" />
-        <span id="heartbeat">0</span>
+        <span id="heartbeat" class="heart-dead">0</span>
     </div>
     <progress id="timeremain" value="10" max="10"></progress>
     <h1 id="welcome">Sauve le chat, mais ne le grille pas !</h1>
@@ -98,6 +122,14 @@
         deadCatImage.src = 'chat-mort.png';
 
         // dead cat
+        var electrifiedCatImage = new Image();
+        loader.attachedOne();
+        electrifiedCatImage.onload = function(){
+            loader.finishedOne();
+        };
+        electrifiedCatImage.src = 'chat-electrifie.png';
+
+        // dead cat
         var grilledCatImage = new Image();
         loader.attachedOne();
         grilledCatImage.onload = function(){
@@ -112,7 +144,6 @@
             loader.finishedOne();
         };
         batteryImage.src = 'batterie.png';
-
 
         loader.gogogo();
 
@@ -144,7 +175,8 @@
                         handle_black: { x:71, y:40 },
                     },
                     playing: true,
-                    counter_min: 70,
+                    buzzing: false,
+                    counter_min: 80,
                     counter_max: 120,
                     counter: 10,
                     score: 0,
@@ -172,6 +204,8 @@
                             ctx.status = 'grilled';                     
                         }
                     }
+                    var hb = $('#heartbeat')[0];
+                    hb.className = hb.className.replace(/heart-\w+/, 'heart-' + ctx.status);
                 }
 
                 function bzzt() {
@@ -229,7 +263,7 @@
                     if (ctx.status == 'dead' || ctx.status == 'grilled') {  
                         sounds['ecg'].play();                      
                         $('#welcome').show().html('Le chat est mort !');
-                        $('#canvas').hide();
+                        $('#canvas, #ecg').hide();
                         setTimeout(function(){
                             stopTimers();
                             gameMgr.end(false, 0);
@@ -238,10 +272,10 @@
                     } else {
                         sounds['chat3'].play();
                         $('#welcome').show().html('Le chat est vivant !');
-                        $('#canvas').hide();
+                        $('#canvas, #ecg').hide();
                         setTimeout(function(){
                             stopTimers();
-                            gameMgr.end(true, Math.abs(50 - ctx.counter));
+                            gameMgr.end(true, Math.abs(100 - ctx.counter));
                         }, 1000);
                     }
                 }
@@ -259,7 +293,10 @@
                     if ((endPoint.x > ctx.cat.zone.x && endPoint.x < ctx.cat.zone.x + ctx.cat.zone.width)
                      && (endPoint.y > ctx.cat.zone.y && endPoint.y < ctx.cat.zone.y + ctx.cat.zone.height)) {
                        bzzt();
-                    }
+                       ctx.buzzing = true;
+                    } else {
+                       ctx.buzzing = false;
+                   }
                 }
 
                 var cats = {
@@ -270,10 +307,12 @@
                 };
 
                 function render() {
+                    catImage = ctx.buzzing ? electrifiedCatImage : cats[ ctx.status ];
+
                     context.clearRect(0, 0, canvas.width, canvas.height);
 
                     context.drawImage(batteryImage, ctx.battery.x, ctx.battery.y, ctx.battery.width, ctx.battery.height);
-                    context.drawImage(cats[ ctx.status ], ctx.cat.x, ctx.cat.y, ctx.cat.width, ctx.cat.height);
+                    context.drawImage(catImage, ctx.cat.x, ctx.cat.y, ctx.cat.width, ctx.cat.height);
 
                     context.beginPath();
                     context.lineWidth = 5;
@@ -315,6 +354,7 @@
 
             setTimeout(function() {
                 $('#welcome').hide();
+                $('#canvas, #ecg').show();
 
                 IntensiveCare();
             }, 1000);
