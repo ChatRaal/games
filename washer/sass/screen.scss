@@ -3,7 +3,16 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
-@import "compass/reset";
+@import "compass";
+@import url(http://fonts.googleapis.com/css?family=Leckerli+One);
+
+h1{
+    text-align: center;
+    width:100%;
+    font-family: 'Leckerli One', cursive;
+    color: white;
+    font-size: 52px;
+}
 
 #fond{
     background: url("../img/fond.png");
@@ -17,7 +26,10 @@
   display: inline-block;
 }
 #machine{
-    background: url('../img/machine.png');
+    &.sang{
+        @include background(url('../img/machine.png'), url('../img/sang.png'));
+    }
+    @include background(url('../img/machine.png'));
     width: image-width('machine.png');
     height: image-height('machine.png');
     bottom:80px;
