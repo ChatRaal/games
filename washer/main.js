@@ -40,7 +40,7 @@ function gameLoad(params){
                 }
             }) 
         });
-        timer = 5 - params.difficulty;
+        timer = 6 - params.difficulty;
     });
     gameMgr.ready();
     window.setInterval(function(){
