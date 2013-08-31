@@ -135,14 +135,16 @@
                     if (ctx.status == 'reanimating') {
                         ctx.status = 'alive';
                     }
-                    if (ctx.status == 'dead' || ctx.status == 'grilled') {
+                    if (ctx.status == 'dead' || ctx.status == 'grilled') {                        
                         $('#welcome').show().html('Le chat est mort !');
+                        $('#canvas').hide();
                         setTimeout(function(){
                             gameMgr.end(false, 0);
                         }, 1000);
     
                     } else {
                         $('#welcome').show().html('Le chat est vivant !');
+                        $('#canvas').hide();
                         setTimeout(function(){
                             gameMgr.end(true, Math.abs(50 - ctx.counter));
                         }, 1000);
