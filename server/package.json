@@ -1,0 +1,9 @@
+{
+  "name": "CoinWare-server",
+  "description": "",
+  "version": "0.0.1",
+  "dependencies": {
+    "underscore": "~1.5.1",
+    "express": "~3.3.5"
+  }
+}
