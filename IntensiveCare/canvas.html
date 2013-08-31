@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="480"></canvas>
+
+    <script type="text/javascript">
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+
+      // dead cat
+      var catImage = new Image();      
+      catImage.onload = function() {
+      };
+      catImage.src = 'cat.jpg';
+
+      // dead cat
+      var batteryImage = new Image();      
+      batteryImage.onload = function() {
+      };
+      batteryImage.src = 'battery.jpeg';
+
+      var endPoint = { x:300, y:200 };
+
+      function onDocumentMouseMove(event) {
+        endPoint.x = event.clientX;
+        endPoint.y = event.clientY;
+      }
+
+      document.addEventListener('mousemove', onDocumentMouseMove, false);
+
+      function render() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        context.drawImage(batteryImage, 0, 250, 100, 100);
+        context.drawImage(catImage, 200, 250, 150, 100);
+
+        context.beginPath();
+        context.lineWidth = 5;
+        context.moveTo(20, 276);
+        context.bezierCurveTo(140, 200, 388, 10, endPoint.x - 1, endPoint.y + 10);
+        context.strokeStyle = 'orange';
+        context.stroke();
+
+        context.beginPath();
+        context.lineWidth = 10;
+        context.moveTo(20, 276);
+        context.bezierCurveTo(140, 200, 388, 10, endPoint.x, endPoint.y);
+        context.strokeStyle = 'black';
+        context.stroke();
+
+        context.beginPath();
+        context.lineWidth = 5;
+        context.moveTo(72, 276);
+        context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50 - 1, endPoint.y + 10);
+        context.strokeStyle = 'orange';
+        context.stroke();
+
+        context.beginPath();
+        context.lineWidth = 10;
+        context.moveTo(72, 276);
+        context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50, endPoint.y);
+        context.strokeStyle = 'red';
+        context.stroke();
+
+        requestAnimationFrame(render);
+      }
+
+      render();
+    </script>
+  </body>
+</html>
