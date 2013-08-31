@@ -38,7 +38,7 @@
     }
     #heartbeat.heart-dead,
     #heartbeat.heart-grilled {
-        color: ##AC2900;
+        color: #AC2900;
     }
     body {
         background-image:url(vide.png);
@@ -307,7 +307,7 @@
                 };
 
                 function render() {
-                    catImage = ctx.buzzing ? electrifiedCatImage : cats[ ctx.status ];
+                    catImage = ctx.status !== 'grilled' && ctx.buzzing ? electrifiedCatImage : cats[ ctx.status ];
 
                     context.clearRect(0, 0, canvas.width, canvas.height);
 
