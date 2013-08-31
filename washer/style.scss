@@ -1,0 +1,16 @@
+.save, .kill, #cat{
+  width: 100px;
+  height: 100px;
+}
+.save,.kill{
+  display: inline-block;
+}
+.save{ background: green;}
+.kill{ background: red;}
+#cat{ 
+  background: #383404;
+  display: block;
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+};
