@@ -7,6 +7,10 @@
     <script type="text/javascript" src="../GameMgr/lib/jquery-1.10.0.min.js"></script>
 </head>
 <body>
+    <div id="ecg">
+        <img id="heart" />
+        <span id="heartbeat">0</span>
+    </div>
     <canvas id="canvas" width="800" height="480"></canvas>
 
     <script type="text/javascript">
@@ -32,6 +36,8 @@
                     height: 100
                 },
                 playing: true,
+                counter_min: 30,
+                counter_max: 70,
                 counter: 0,
                 score: 0,
                 statuses : ['dead', 'reanimating', 'grilled', 'alive'],
@@ -39,19 +45,19 @@
             };
 
             function updateStatus() {
-                if (ctx.counter < 30) {
+                if (ctx.counter < ctx.counter_min) {
                     ctx.status = 'dead';
-                } else if (ctx.counter < 70) {
+                } else if (ctx.counter < ctx.counter_max) {
                     ctx.status = 'reanimating';
                 } else {
                     ctx.status = 'grilled';
                 }
+                console.log(ctx.status);       
             }
 
             function bzzt() {
                 ctx.counter++;
                 updateStatus();
-                console.log(ctx.counter);       
             }
 
             function timeDecay() {
@@ -61,7 +67,7 @@
                         ctx.counter = 0;
                     }
                     updateStatus();
-                    console.log('decr' + ctx.counter);
+                    //console.log('decr' + ctx.counter);
                 }
             }    
 
@@ -77,7 +83,7 @@
                 } else {
                     gameMgr.end(true, Math.abs(50 - ctx.counter));
                 }
-            }    
+            }
 
             function onDocumentMouseMove(event) {
                 endPoint.x = event.clientX;
