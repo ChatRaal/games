@@ -5,6 +5,7 @@
     <script type="text/javascript" src="../GameMgr/CWGame.js"></script> 
     <script type="text/javascript" src="../GameMgr/MockGame.js"></script> 
     <script type="text/javascript" src="../GameMgr/lib/jquery-1.10.0.min.js"></script>
+    <script type="text/javascript" src="loader.js"></script>
     <style type="text/css">
     h1 {
         margin: 9% auto;
@@ -29,6 +30,45 @@
 
     <script type="text/javascript">
     function gameLoad(gameMgr) {
+        var loader = new Loader(function(){
+            gameMgr.ready();
+        });
+
+        // dead cat
+        var woundedCatImage = new Image();
+        loader.attachedOne();
+        woundedCatImage.onload = function(){
+            loader.finishedOne();
+        };
+        woundedCatImage.src = 'cat.jpg';
+
+        // dead cat
+        var deadCatImage = new Image();
+        loader.attachedOne();
+        deadCatImage.onload = function(){
+            loader.finishedOne();
+        };
+        deadCatImage.src = 'cat.jpg';
+
+        // dead cat
+        var grilledCatImage = new Image();
+        loader.attachedOne();
+        grilledCatImage.onload = function(){
+            loader.finishedOne();
+        };
+        grilledCatImage.src = 'cat.jpg';
+
+        // battery
+        var batteryImage = new Image();
+        loader.attachedOne();
+        batteryImage.onload = function(){
+            loader.finishedOne();
+        };
+        batteryImage.src = 'battery.jpeg';
+
+
+        loader.gogogo();
+
         // configure your game
         gameMgr.onStart(function(params) {
             
@@ -113,26 +153,6 @@
                     }
                 }
 
-                // dead cat
-                var woundedCatImage = new Image();
-                woundedCatImage.onload = function() {};
-                woundedCatImage.src = 'cat.jpg';
-
-                // dead cat
-                var deadCatImage = new Image();
-                deadCatImage.onload = function() {};
-                deadCatImage.src = 'cat.jpg';
-
-                // dead cat
-                var grilledCatImage = new Image();
-                grilledCatImage.onload = function() {};
-                grilledCatImage.src = 'cat.jpg';
-
-                // battery
-                var batteryImage = new Image();
-                batteryImage.onload = function() {};
-                batteryImage.src = 'battery.jpeg';
-
                 var cats = {
                     dead: woundedCatImage,
                     alive: woundedCatImage,
@@ -188,10 +208,7 @@
 
                 IntensiveCare();
             }, 1000);
-
         });
-        
-        gameMgr.ready();
     }; 
     </script>  
 </body>
