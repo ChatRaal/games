@@ -32,6 +32,22 @@
         position: absolute;
         border: 2px solid red;
     }
+    body {
+        background-image:url(vide.png);
+    }
+
+    @font-face {
+      font-family: 'Leckerli One';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Leckerli One'), local('LeckerliOne-Regular'), url('fonts/Leckerli_One/LeckerliOne-Regular.ttf');
+    }
+   
+    #welcome {
+        padding-top: 20px;
+        font-family: 'Leckerli One', cursive;
+        color: #736357;
+    }
     </style>
 </head>
 <body>
@@ -144,7 +160,7 @@
                         handle_black: { x:71, y:40 },
                     },
                     playing: true,
-                    counter_min: 70,
+                    counter_min: 80,
                     counter_max: 120,
                     counter: 10,
                     score: 0,
@@ -241,7 +257,7 @@
                         $('#canvas').hide();
                         setTimeout(function(){
                             stopTimers();
-                            gameMgr.end(true, Math.abs(50 - ctx.counter));
+                            gameMgr.end(true, Math.abs(100 - ctx.counter));
                         }, 1000);
                     }
                 }
