@@ -1,6 +1,7 @@
 {
     "id": "washer",
     "name": "Cat in washer",
+    "preload": "false",
     "description": "Drop the car in the good recipient!",
     "teamName": "ChatRaal",
     "credits": [
