@@ -45,9 +45,9 @@
             };
 
             function updateStatus() {
-                if (ctx.counter < counter_min) {
+                if (ctx.counter < ctx.counter_min) {
                     ctx.status = 'dead';
-                } else if (ctx.counter < counter_max) {
+                } else if (ctx.counter < ctx.counter_max) {
                     ctx.status = 'reanimating';
                 } else {
                     ctx.status = 'grilled';
