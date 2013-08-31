@@ -4,15 +4,18 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 /* line 9, ../sass/screen.scss */
+body {
+  margin: 0; }
+
+/* line 13, ../sass/screen.scss */
 h1 {
   text-align: center;
   width: 100%;
   font-family: 'Leckerli One', cursive;
   color: white;
-  font-size: 52px;
-  padding-top: 0px; }
+  font-size: 52px; }
 
-/* line 18, ../sass/screen.scss */
+/* line 21, ../sass/screen.scss */
 #fond {
   background: url("../img/fond.png");
   width: 800px;
@@ -20,11 +23,11 @@ h1 {
   position: relative;
   overflow: hidden; }
 
-/* line 26, ../sass/screen.scss */
+/* line 29, ../sass/screen.scss */
 #machine, #panier {
   display: inline-block; }
 
-/* line 29, ../sass/screen.scss */
+/* line 32, ../sass/screen.scss */
 #machine {
   background: url("../img/machine.png");
   width: 239px;
@@ -32,11 +35,11 @@ h1 {
   bottom: 80px;
   left: 100px;
   position: absolute; }
-  /* line 30, ../sass/screen.scss */
+  /* line 33, ../sass/screen.scss */
   #machine.sang {
     background: url("../img/machine.png"), url("../img/sang.png"); }
 
-/* line 41, ../sass/screen.scss */
+/* line 44, ../sass/screen.scss */
 #panier {
   background: url("../img/panier.png");
   width: 189px;
@@ -45,8 +48,9 @@ h1 {
   right: 100px;
   position: absolute; }
 
-/* line 49, ../sass/screen.scss */
+/* line 52, ../sass/screen.scss */
 #cat {
+  background: url("../img/chat.png");
   width: 170px;
   height: 418px;
   display: block;
@@ -54,7 +58,7 @@ h1 {
   bottom: -313.5px;
   left: 50%; }
 
-/* line 59, ../sass/screen.scss */
+/* line 63, ../sass/screen.scss */
 .catTurn {
   -webkit-animation-name: spin;
   -webkit-animation-duration: 500ms;
@@ -74,37 +78,37 @@ h1 {
   animation-timing-function: linear; }
 
 @-ms-keyframes spin {
-  /* line 79, ../sass/screen.scss */
+  /* line 83, ../sass/screen.scss */
   from {
     -ms-transform: rotate(0deg); }
 
-  /* line 80, ../sass/screen.scss */
+  /* line 84, ../sass/screen.scss */
   to {
     -ms-transform: rotate(360deg); } }
 
 @-moz-keyframes spin {
-  /* line 83, ../sass/screen.scss */
+  /* line 87, ../sass/screen.scss */
   from {
     -moz-transform: rotate(0deg); }
 
-  /* line 84, ../sass/screen.scss */
+  /* line 88, ../sass/screen.scss */
   to {
     -moz-transform: rotate(360deg); } }
 
 @-webkit-keyframes spin {
-  /* line 87, ../sass/screen.scss */
+  /* line 91, ../sass/screen.scss */
   from {
     -webkit-transform: rotate(0deg); }
 
-  /* line 88, ../sass/screen.scss */
+  /* line 92, ../sass/screen.scss */
   to {
     -webkit-transform: rotate(360deg); } }
 
 @keyframes spin {
-  /* line 91, ../sass/screen.scss */
+  /* line 95, ../sass/screen.scss */
   from {
     transform: rotate(0deg); }
 
-  /* line 94, ../sass/screen.scss */
+  /* line 98, ../sass/screen.scss */
   to {
     transform: rotate(360deg); } }

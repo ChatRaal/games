@@ -6,6 +6,10 @@
 @import "compass";
 @import url(http://fonts.googleapis.com/css?family=Leckerli+One);
 
+body{
+    margin: 0;
+}
+
 h1{
     text-align: center;
     width:100%;
@@ -46,6 +50,7 @@ h1{
     position:absolute;
 }
 #cat{
+    background: url('../img/chat.png');
     width: image-width('chat.png');
     height: image-height('chat.png');
     display: block;

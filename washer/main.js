@@ -1,7 +1,8 @@
-var gameMgr = null;
-
+var gameMgr = null,
+    endOfGame = null;
 function gameLoad(params){
     gameMgr = params;
+    var timer;
     gameMgr.onStart(function(params) {
         $(function() {
             init();
@@ -36,12 +37,19 @@ function gameLoad(params){
                         urls: ['./sounds/ChatLinge.mp3','./sounds/ChatLinge.ogg']
                     }).play();
                     $(this).trigger('dropped');
-                    //console.log('Drop on >'+ event.pageX + ' ^ ' +event.pageY);
                 }
             }) 
         });
+        timer = 6 - params.difficulty;
     });
     gameMgr.ready();
+    endOfGame = window.setInterval(function(){
+        $("h1 time").text(timer + 's');
+        if (timer <= 0) {gameMgr.end(false, 0);}
+        else{
+            timer = timer-1 ;
+        }
+    },1000);
 };
 
 
@@ -57,39 +65,37 @@ function init(){
 }
 
 function save(){
-    console.log('save the cat');
     $('#machine').on('dropped',function(){
         var sound = new Howl({
             urls: ['./sounds/Chat2.mp3','./sounds/Chat2.ogg']
         }).play();
         $(this).addClass('sang');
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(false, 0); }, 1000);
-        console.log('YOU LOOSE');
     });
     $('#panier').on('dropped',function(){
         var sound = new Howl({
             urls: ['./sounds/RonronPlusFort.mp3','./sounds/ChRonronPlusFort.ogg']
         }).play();
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(true, 100); }, 1000);
-        console.log('YOU WIN');
     })
 }
 
 function kill(){
-    console.log('kill the cat');
     $('#machine').on('dropped', function(){
         var sound = new Howl({
             urls: ['./sounds/Chat2.mp3','./sounds/Chat2.ogg']
         }).play();
-        console.log('YOU WIN');
         $(this).addClass('sang');
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(true, 100); }, 1000);
     });
     $('#panier').on('dropped',function(){
         var sound = new Howl({
             urls: ['./sounds/RonronPlusFort.mp3','./sounds/ChRonronPlusFort.ogg']
         }).play();
+        window.clearInterval(endOfGame);
         setTimeout(function() {gameMgr.end(false, 0); }, 1000);
-        console.log('YOU LOOSE');
     })
 }
