@@ -3,7 +3,7 @@ var gameName = "Schrödinger Frenzy";
 
 // Put in this array the name of your mini-game 
 // (the same name you used for the folder of your mini-game)
-var gamesId = [ "IntensiveCare"];
+var gamesId = [ "IntensiveCare","washer" ];
 
 // number of levels in the global game
 var maxLevels = 3;
