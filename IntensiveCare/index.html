@@ -39,7 +39,9 @@
     <canvas id="canvas" width="800" height="480"></canvas>
 
     <script type="text/javascript">
+    var game;
     function gameLoad(gameMgr) {
+        game = gameMgr;
         var loader = new Loader(function(){
             gameMgr.ready();
         });
@@ -69,6 +71,8 @@
         sounds['chat3'] = new Howl({urls: ['sfx/Chat3.mp3', 'sfx/Chat3.ogg'],
             onload:function(){ loader.finishedOne(); }
         });
+
+        var timers = [];
 
         // dead cat
         var woundedCatImage = new Image();
@@ -107,7 +111,7 @@
 
         // configure your game
         gameMgr.onStart(function(params) {
-                        
+            $('#canvas').show();            
             function IntensiveCare() {
                 var canvas = document.getElementById('canvas');
                 var context = canvas.getContext('2d');
@@ -163,46 +167,47 @@
             }
 
             function heartbeat() {
-                var freq = 1;
-                $('#heartbeat').text(ctx.counter);
-                if (ctx.counter == 0) {
-                    setTimeout(function() {
-                        heartbeat();
-                    },1000);
-                    return; 
-                } else {
-                    freq = ctx.counter/60;
-                }
-                var duration = parseInt(1/freq*100);
+                if (ctx.playing) {
+                    var freq = 1;
+                    $('#heartbeat').text(ctx.counter);
+                    if (ctx.counter == 0) {
+                        setTimeout(function() {
+                            heartbeat();
+                        },1000);
+                        return; 
+                    } else {
+                        freq = ctx.counter/60;
+                    }
+                    var duration = parseInt(1/freq*100);
 
-                $('#heart').css('opacity', 1);
-                if (sounds['ecg']) {
-                    sounds['ecg'].stop().play();
-                }
-                
-                setTimeout(function() {
-                    $('#heart').css('opacity', 0);
+                    $('#heart').css('opacity', 1);
+                    if (sounds['ecg']) {
+                        sounds['ecg'].stop().play();
+                    }
+                    
                     setTimeout(function() {
-                        heartbeat();
-                    },duration);                    
-                },100);
+                        $('#heart').css('opacity', 0);
+                        setTimeout(function() {
+                            heartbeat();
+                        },duration);                    
+                    },100);
+                }
             } 
 
                 function timeDecay() {
-                    if (ctx.playing) {
-                        ctx.counter -= 1;
-                        $('#timeremain').val(--ctx.time);
+                    ctx.counter -= 5;
+                    $('#timeremain').val(--ctx.time);
 
-                        if (ctx.counter < 0) {
-                            ctx.counter = 0;
-                        }
-                        updateStatus();
-                        //console.log('decr' + ctx.counter);
+                    if (ctx.counter < 0) {
+                        ctx.counter = 0;
                     }
+                    updateStatus();
+                        //console.log('decr' + ctx.counter);
                 }    
 
                 function untilTimeout() {
                     ctx.playing = false;
+                    document.removeEventListener('mousemove', onDocumentMouseMove);
                     updateStatus();
                     if (ctx.status == 'reanimating') {
                         ctx.status = 'alive';
@@ -212,6 +217,7 @@
                         $('#welcome').show().html('Le chat est mort !');
                         $('#canvas').hide();
                         setTimeout(function(){
+                            stopTimers();
                             gameMgr.end(false, 0);
                         }, 1000);
     
@@ -220,8 +226,15 @@
                         $('#welcome').show().html('Le chat est vivant !');
                         $('#canvas').hide();
                         setTimeout(function(){
+                            stopTimers();
                             gameMgr.end(true, Math.abs(50 - ctx.counter));
                         }, 1000);
+                    }
+                }
+
+                function stopTimers() {
+                    for (var i=0; i<timers.length; i++) {
+                        clearInterval(timers.pop());
                     }
                 }
 
@@ -281,7 +294,7 @@
 
                 render();
                 heartbeat();
-                setInterval(timeDecay, 1000);
+                timers.push(setInterval(timeDecay, 1000));
                 setTimeout(untilTimeout, 11000);
                 document.addEventListener('mousemove', onDocumentMouseMove, false);                
             }
