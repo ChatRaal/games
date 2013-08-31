@@ -5,12 +5,16 @@
     <script type="text/javascript" src="../GameMgr/CWGame.js"></script> 
     <script type="text/javascript" src="../GameMgr/MockGame.js"></script> 
     <script type="text/javascript" src="../GameMgr/lib/jquery-1.10.0.min.js"></script>
+    <script type="text/javascript" src="howler.min.js"></script>     
     <script type="text/javascript" src="loader.js"></script>
     <style type="text/css">
     h1 {
         margin: 9% auto;
         text-align: center;
     }
+    #heart {
+        opacity:0;  
+    }    
     #timeremain {
         position: absolute;
         top: 0;
@@ -21,7 +25,7 @@
 </head>
 <body>
     <div id="ecg">
-        <img id="heart" />
+        <img id="heart" src="heart.png" width="50" height="50" />
         <span id="heartbeat">0</span>
     </div>
     <progress id="timeremain" value="10" max="10"></progress>
@@ -33,6 +37,14 @@
         var loader = new Loader(function(){
             gameMgr.ready();
         });
+
+        var sounds = [];
+        sounds['ecg'] = new Howl({urls: ['sfx/ECG.mp3', 'sfx/ECG.ogg']});
+        sounds['boom'] = new Howl({urls: ['sfx/Boom.mp3', 'sfx/Boom.ogg']});
+        sounds['elec'] = new Howl({urls: ['sfx/ElectricityCourte.mp3', 'sfx/ElectricityCourte.ogg']});
+        sounds['chat1'] = new Howl({urls: ['sfx/Chat1.mp3', 'sfx/Chat1.ogg']});
+        sounds['chat2'] = new Howl({urls: ['sfx/Chat2.mp3', 'sfx/Chat2.ogg']});
+        sounds['chat3'] = new Howl({urls: ['sfx/Chat3.mp3', 'sfx/Chat3.ogg']});
 
         // dead cat
         var woundedCatImage = new Image();
@@ -72,10 +84,12 @@
         // configure your game
         gameMgr.onStart(function(params) {
             
+
+            
             function IntensiveCare() {
                 var canvas = document.getElementById('canvas');
                 var context = canvas.getContext('2d');
-
+                var sounds = [];
                 var endPoint = { x:300, y:200 };
                 var ctx = {
                     time: 10,
@@ -92,29 +106,64 @@
                         height: 100
                     },
                     playing: true,
-                    counter_min: 30,
-                    counter_max: 70,
-                    counter: 0,
+                    counter_min: 70,
+                    counter_max: 120,
+                    counter: 10,
                     score: 0,
                     statuses : ['dead', 'reanimating', 'grilled', 'alive'],
                     status: 'dead',
                 };
 
-                function updateStatus() {
-                    if (ctx.counter < ctx.counter_min) {
+            function updateStatus() {
+                if (ctx.counter < ctx.counter_min) {
+                    if (ctx.status != 'dead') {
+                        sounds['chat1'].play();
                         ctx.status = 'dead';
-                    } else if (ctx.counter < ctx.counter_max) {
-                        ctx.status = 'reanimating';
-                    } else {
-                        ctx.status = 'grilled';
                     }
-                    console.log(ctx.status);
+                } else if (ctx.counter < ctx.counter_max) {
+                    if (ctx.status != 'reanimating') {
+                        sounds['chat2'].play();
+                        ctx.status = 'reanimating';                     
+                    }
+                } else {
+                    if (ctx.status != 'grilled') {
+                        sounds['boom'].play();
+                        ctx.status = 'grilled';                     
+                    }
                 }
+            }
 
-                function bzzt() {
-                    ctx.counter++;
-                    updateStatus();
+            function bzzt() {
+                ctx.counter++;
+                updateStatus();
+                sounds['elec'].stop().play();
+            }
+
+            function heartbeat() {
+                var freq = 1;
+                $('#heartbeat').text(ctx.counter);
+                if (ctx.counter == 0) {
+                    setTimeout(function() {
+                        heartbeat();
+                    },1000);
+                    return; 
+                } else {
+                    freq = ctx.counter/60;
                 }
+                var duration = parseInt(1/freq*100);
+
+                $('#heart').css('opacity', 1);
+                if (sounds['ecg']) {
+                    sounds['ecg'].stop().play();
+                }
+                
+                setTimeout(function() {
+                    $('#heart').css('opacity', 0);
+                    setTimeout(function() {
+                        heartbeat();
+                    },duration);                    
+                },100);
+            } 
 
                 function timeDecay() {
                     if (ctx.playing) {
@@ -135,7 +184,8 @@
                     if (ctx.status == 'reanimating') {
                         ctx.status = 'alive';
                     }
-                    if (ctx.status == 'dead' || ctx.status == 'grilled') {                        
+                    if (ctx.status == 'dead' || ctx.status == 'grilled') {  
+                        sounds['ecg'].play();                      
                         $('#welcome').show().html('Le chat est mort !');
                         $('#canvas').hide();
                         setTimeout(function(){
@@ -143,6 +193,7 @@
                         }, 1000);
     
                     } else {
+                        sounds['chat3'].play();
                         $('#welcome').show().html('Le chat est vivant !');
                         $('#canvas').hide();
                         setTimeout(function(){
@@ -206,6 +257,7 @@
                 }
 
                 render();
+                heartbeat();
                 setInterval(timeDecay, 1000);
                 setTimeout(untilTimeout, 11000);
                 document.addEventListener('mousemove', onDocumentMouseMove, false);                
