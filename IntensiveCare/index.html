@@ -1,35 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<script type="text/javascript" src="../GameMgr/CWGame.js"></script> 
-<script type="text/javascript" src="../GameMgr/MockGame.js"></script> 
-<script type="text/javascript" src="../GameMgr/lib/jquery-1.10.0.min.js"></script>
-	<script type="text/javascript">
-	function gameLoad(gameMgr) {
-		// configure your game
-		gameMgr.onStart(function(params) {
-    			console.log('difficulty '+params.difficulty);
-			
-			// start game loop here
-			
-			
-    		});
-		$('#button1').click(function() {
-			gameMgr.end(false, 1);
-			return false;
-		});		
-		
-		
-		// load your assets here
-		setTimeout(function() { gameMgr.ready(); }, 500);
-	}; 
-	</script>  
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="../GameMgr/CWGame.js"></script> 
+    <script type="text/javascript" src="../GameMgr/MockGame.js"></script> 
+    <script type="text/javascript" src="../GameMgr/lib/jquery-1.10.0.min.js"></script>
 </head>
 <body>
-	<h1>Hello World!</h1>
-	<form>
-		<button id="button1" >End game</button>
-	</form>
+    <canvas id="canvas" width="800" height="480"></canvas>
+
+    <script type="text/javascript">
+    function gameLoad(gameMgr) {
+        // configure your game
+        gameMgr.onStart(function(params) {
+            
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+
+            var endPoint = { x:300, y:200 };
+            var ctx = {
+                cat: {
+                    x: 200,
+                    y: 250,
+                    width: 150,
+                    height: 100
+                },
+                battery: {
+                    x: 0,
+                    y: 250,
+                    width: 100,
+                    height: 100
+                }
+            };
+
+            // dead cat
+            var catImage = new Image();
+            catImage.onload = function() {};
+            catImage.src = 'cat.jpg';
+
+            // dead cat
+            var batteryImage = new Image();
+            batteryImage.onload = function() {};
+            batteryImage.src = 'battery.jpeg';
+
+            function onDocumentMouseMove(event) {
+                endPoint.x = event.clientX;
+                endPoint.y = event.clientY;
+
+                if ((endPoint.x > ctx.cat.x && endPoint.x < ctx.cat.x + ctx.cat.width)
+                 && (endPoint.y > ctx.cat.y && endPoint.y < ctx.cat.y + ctx.cat.height)) {
+
+                    console.log('BZZZZ');
+                    gameMgr.end(false, 1);
+
+                }
+            }
+
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+
+            function render() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                context.drawImage(batteryImage, ctx.battery.x, ctx.battery.y, ctx.battery.width, ctx.battery.height);
+                context.drawImage(catImage, ctx.cat.x, ctx.cat.y, ctx.cat.width, ctx.cat.height);
+
+                context.beginPath();
+                context.lineWidth = 5;
+                context.moveTo(20, 276);
+                context.bezierCurveTo(140, 200, 388, 10, endPoint.x - 1, endPoint.y + 10);
+                context.strokeStyle = 'orange';
+                context.stroke();
+
+                context.beginPath();
+                context.lineWidth = 10;
+                context.moveTo(20, 276);
+                context.bezierCurveTo(140, 200, 388, 10, endPoint.x, endPoint.y);
+                context.strokeStyle = 'black';
+                context.stroke();
+
+                context.beginPath();
+                context.lineWidth = 5;
+                context.moveTo(72, 276);
+                context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50 - 1, endPoint.y + 10);
+                context.strokeStyle = 'orange';
+                context.stroke();
+
+                context.beginPath();
+                context.lineWidth = 10;
+                context.moveTo(72, 276);
+                context.bezierCurveTo(140, 200, 388, 10, endPoint.x + 50, endPoint.y);
+                context.strokeStyle = 'red';
+                context.stroke();
+
+                requestAnimationFrame(render);
+            }
+
+            render();            
+                
+        });
+        
+        gameMgr.ready();
+    }; 
+    </script>  
 </body>
 </html>
